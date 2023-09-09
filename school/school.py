@@ -195,17 +195,9 @@ class Student:
             return []
 
 
-class Subject:
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return f"{self.name}"
-
-
-math = Subject("Math")
-physics = Subject("Physics")
-chemistry = Subject("Chemistry")
+math = "Math"
+physics = "Physics"
+chemistry = "Chemistry"
 
 gymnasium = School("Gymnasium")
 class_A = Classroom("Class A")
