@@ -82,24 +82,24 @@ class Classroom:
     def get_subjects(self):
         return self.subjects
 
-    # def check_student_progress(self, student, subject_name):
-    #     if subject_name in self.subjects and student in self.students:
-    #         if student.subjects[subject_name['hours']] >= self.subjects[subject_name['hours']]:
-    #             return 'Enough hours'
-    #         else:
-    #             return 'Not enough hours'
-    #     else:
-    #         return 'Student or subject not found'
+    def set_hours(self, subject, hours):
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                sub_info['hours'] = hours
+                return f"Hours for '{subject}' updated to {hours}"
+        return f"Subject '{subject}' not found in the class."
 
-    def check_student_progress(self, student, subject_name):
+    def check_student_hours(self, student, subject_name):
         for sub_info in self.subjects:
             if sub_info['subject'] == subject_name:
                 if student.get_hours(subject_name) >= sub_info['hours']:
+                    student.set_hours(subject_name, 0)
                     return 'Enough hours'
                 else:
-                    return 'Not enough hours'
-        else:
-            return 'Student or subject not found'
+                    student.set_hours(subject_name, 0)
+                    return 'Not enough hours, you so dumb'
+
+        return 'Student or subject not found'
 
 
 class Student:
@@ -120,8 +120,6 @@ class Student:
         else:
             self.subjects.append({'subject': subject, 'hours': hours, 'marks': [], 'skips': 0})
 
-    # -----SKIPS------------------------------------------------------------------------------------
-
     def plus_subject_skips(self, subject, count):
         for sub_info in self.subjects:
             if sub_info['subject'] == subject:
@@ -135,32 +133,20 @@ class Student:
             if sub_info['subject'] == subject:
                 sub_info['skips'] = count
                 break
-        else:
-            print(f"Subject '{subject}' not found.")
+        print(f"Subject '{subject}' not found.")
 
     def get_student_skips(self, subject):
         for sub_info in self.subjects:
             if sub_info['subject'] == subject:
                 skips = sub_info['skips']
                 return f"Student has {skips} skips for subject: {subject}"
-        else:
-            return f"Subject '{subject}' not found in student's records."
+        return f"Subject '{subject}' not found in student's records."
 
     def get_all_skips(self):
         count = 0
         for sub_info in self.subjects:
             count += sub_info['skips']
         return f'{count} skips for all time'
-
-    def get_all_subject_skips(self):
-        skips_info = ""
-        for sub_info in self.subjects:
-            subject = sub_info['subject']
-            skips = sub_info['skips']
-            skips_info += f"Student has {skips} skips for subject: {subject}\n"
-        return skips_info
-
-    # ---------------------------------------------------------------------------------------------------------------------
 
     def del_subject(self, subject):
         for sub_info in self.subjects:
@@ -194,7 +180,7 @@ class Student:
         for sub_info in self.subjects:
             if sub_info['subject'] == subject:
                 sub_info['hours'] = hours
-                break
+                return
         print(f"Subject: {subject} not found.")
 
     def add_mark(self, subject, mark):
@@ -256,7 +242,7 @@ student1.add_mark(math, 7)
 # student3.add_subject_hours(chemistry, 5)
 # student3.add_subject_hours(physics, 5)
 
-class_A.add_subject(math, 5)
+class_A.add_subject(math, 6)
 class_A.add_subject(physics, 5)
 # class_A.del_subject(physics)
 
@@ -279,6 +265,7 @@ print(student1.get_subjects())
 # print(student1, student1.get_subjects())
 # print(student1.get_grade_point_average(math))
 print(class_A.get_subjects())
-print(class_A.check_student_progress(student1, math))
+print(class_A.check_student_hours(student1, math))
 # print(class_A.get_class_students())
 # print(gymnasium.check_student_in_school(student3))
+print(student1.get_subjects())
