@@ -82,6 +82,25 @@ class Classroom:
     def get_subjects(self):
         return self.subjects
 
+    # def check_student_progress(self, student, subject_name):
+    #     if subject_name in self.subjects and student in self.students:
+    #         if student.subjects[subject_name['hours']] >= self.subjects[subject_name['hours']]:
+    #             return 'Enough hours'
+    #         else:
+    #             return 'Not enough hours'
+    #     else:
+    #         return 'Student or subject not found'
+
+    def check_student_progress(self, student, subject_name):
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject_name:
+                if student.get_hours(subject_name) >= sub_info['hours']:
+                    return 'Enough hours'
+                else:
+                    return 'Not enough hours'
+        else:
+            return 'Student or subject not found'
+
 
 class Student:
     def __init__(self, name, age, sex):
@@ -131,7 +150,7 @@ class Student:
         count = 0
         for sub_info in self.subjects:
             count += sub_info['skips']
-        return count
+        return f'{count} skips for all time'
 
     def get_all_subject_skips(self):
         skips_info = ""
@@ -164,6 +183,12 @@ class Student:
 
     def get_subjects(self):
         return self.subjects
+
+    def get_hours(self, subject):
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                return sub_info['hours']
+        return 0
 
     def set_hours(self, subject, hours):
         for sub_info in self.subjects:
@@ -205,7 +230,7 @@ student2 = Student("Bob Cat", 16, "male")
 student3 = Student("Kob Bok", 16, "male")
 # student4 = Student("Kob Bok", 16, "male")  # check
 # student4 = student3 # check
-student4 = Student("Gabimaru", 20, "transgender")
+student4 = Student("Giorgio Gojo", 20, "transgender")
 
 gymnasium.add_student(student1, class_A)
 gymnasium.add_student(student2, class_A)
@@ -213,7 +238,7 @@ gymnasium.add_student(student3, class_B)
 # gymnasium.add_student("Class B", student4)
 # gymnasium.del_student("Class A", student2)
 
-student1.add_subject_hours(math, 3)
+student1.add_subject_hours(math, 5)
 student1.add_subject_hours(physics, 2)
 student1.plus_subject_skips(math, 1)
 student1.plus_subject_skips(physics, 1)
@@ -245,14 +270,15 @@ class_A.add_subject(physics, 5)
 # print(f"Total students in the school: {gymnasium.get_school_students_count()}")
 
 # print(student1.get_marks(math))
-print(student1.get_all_subject_skips())
+# print(student1.get_all_subject_skips())
 
 # print(student1.get_student_skips(math))
 # print(student1.get_all_skips())
 # print(student1)
-# print(student1.get_subjects())
+print(student1.get_subjects())
 # print(student1, student1.get_subjects())
 # print(student1.get_grade_point_average(math))
-# print(class_A.get_subjects())
+print(class_A.get_subjects())
+print(class_A.check_student_progress(student1, math))
 # print(class_A.get_class_students())
 # print(gymnasium.check_student_in_school(student3))
