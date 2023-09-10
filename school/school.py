@@ -2,7 +2,6 @@ class School:
     def __init__(self, school_name):
         self.school_name = school_name
         self.classes = []
-        # self.teachers = []
 
     def check_student_in_school(self, student_obj):
         for school_class in self.classes:
@@ -11,47 +10,38 @@ class School:
                     return True
         return False
 
-    # def get_teachers_in_school(self):
-    #     return self.teachers
-    #
-    # def check_teachers_in_school(self, teacher_obj):
-    #     for teacher in self.teachers:
-    #         if teacher == teacher_obj:
-    #             return teacher
-    #     print('Teacher not found')
-
     def add_class(self, new_class):
         self.classes.append(new_class)
 
-    def del_class(self, class_to_del):  # try
+    def del_class(self, class_to_del):
         if class_to_del in self.classes:
             self.classes.remove(class_to_del)
             print(f'{class_to_del.class_name} removed')
         else:
             print(f'{class_to_del.class_name} not found in the {self.school_name}.')
 
-    def add_student(self, class_obj, student):
-        for school_class in self.classes:
-            if school_class == class_obj and not self.check_student_in_school(student):
-                school_class.students.append(student)
-                print(f'student has been added in class: {school_class}')
-        print(f"Class '{class_obj}' not found in the school or student in school.")
+    def add_student(self, student, school_class):
+        if school_class in self.classes:
+            school_class.students.append(student)
+            print(f"{student.name} added to {school_class.class_name}")
+        else:
+            print(f"{school_class.class_name} not found in the {self.school_name}. Cannot add student.")
 
-    def del_student(self, class_name, student_obj):
-        for school_class in self.classes:
-            if school_class.class_name == class_name:
-                school_class.students.remove(student_obj)
-                return f"Student '{student_obj.name}' removed from class '{class_name}'."
-            else:
-                return 'Student not found.'
+    def del_student(self, student, school_class):
+        if school_class in self.classes and student in school_class.students:
+            school_class.students.remove(student)
+            print(f"{student.name} removed from {school_class.class_name}")
+        else:
+            print(
+                f"{student.name} not found in {school_class.class_name} of {self.school_name}. Cannot remove student.")
 
-    def get_classes_count(self):  # prop
+    def get_classes_count(self):
         return len(self.classes)
 
     def get_classes(self):
         return self.classes
 
-    def get_school_students_count(self):  # prop
+    def get_school_students_count(self):
         total_students = 0
         for school_class in self.classes:
             total_students += school_class.get_class_students_count()
@@ -93,103 +83,105 @@ class Classroom:
         return self.subjects
 
 
-# class Teacher:  # salary, add t, del, get
-#     def __init__(self, name, age, sex, main_subject):
-#         self.name = name
-#         self.age = age
-#         self.sex = sex
-#         self.main_subject = main_subject
-#
-#     def __repr__(self):
-#         return f"(Teacher name: '{self.name}', age: {self.age}, sex: '{self.sex}, main_subject: {self.main_subject}')"
-
-
 class Student:
     def __init__(self, name, age, sex):
         self.name = name
         self.age = age
         self.sex = sex
-        self.subjects = dict()  # переробити під список
+        self.subjects = []
 
     def __repr__(self):
         return f"Student name: '{self.name}', age: {self.age}, sex: '{self.sex}'"
 
     def add_subject_hours(self, subject, hours):
-        if subject in self.subjects:
-            self.subjects[subject]['hours'] += hours
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                sub_info['hours'] += hours
+                break
         else:
-            self.subjects[subject] = {'hours': hours, 'marks': [], 'skips': 0}
+            self.subjects.append({'subject': subject, 'hours': hours, 'marks': [], 'skips': 0})
 
     # -----SKIPS------------------------------------------------------------------------------------
 
     def plus_subject_skips(self, subject, count):
-        if subject in self.subjects.keys():
-            self.subjects[subject]['skips'] += count
-        else:
-            print(f'Subject {subject} not found.')
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                sub_info['skips'] += count
+                break
+
+        print(f"Subject '{subject}' not found.")
 
     def set_subject_skips(self, subject, count):
-        if subject in self.subjects:
-            self.subjects[subject]['skips'] = count
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                sub_info['skips'] = count
+                break
         else:
-            print(f"Subject: {subject} not found.")
+            print(f"Subject '{subject}' not found.")
 
     def get_student_skips(self, subject):
-        if subject in self.subjects:
-            skips = self.subjects[subject]['skips']
-            return f"Student has {skips} skips for subject: {subject}"
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                skips = sub_info['skips']
+                return f"Student has {skips} skips for subject: {subject}"
         else:
             return f"Subject '{subject}' not found in student's records."
 
     def get_all_skips(self):
         count = 0
-        for subject, info in self.subjects.items():
-            count += info['skips']
+        for sub_info in self.subjects:
+            count += sub_info['skips']
         return count
 
     def get_all_subject_skips(self):
-        for subject, info in self.subjects.items():
-            skips = info['skips']
+        for sub_info in self.subjects:
+            subject = sub_info['subject']
+            skips = sub_info['skips']
             print(f"Student has {skips} skips for subject: {subject}")
 
     # ---------------------------------------------------------------------------------------------------------------------
 
     def del_subject(self, subject):
-        if subject in self.subjects:
-            self.subjects.pop(subject)
-            print(f"Subject: {subject} removed from student records.")
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                self.subjects.remove(sub_info)
+                print(f"Subject: {subject} removed from student records.")
+                break
         else:
             print(f"Subject: {subject} not found.")
 
-    # def get_subjects(self):
-    #     return list(self.subjects.keys())
-
     def get_grade_point_average(self, subject):
-        if len(self.subjects[subject]['marks']) == 0:
-            print('there are no marks')
-        elif subject in self.subjects:
-            return round(sum(self.subjects[subject]['marks']) / len(self.subjects[subject]['marks']), 1)
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                if len(sub_info['marks']) == 0:
+                    print('There are no marks')
+                else:
+                    return round(sum(sub_info['marks']) / len(sub_info['marks']), 1)
         else:
-            print(f'Subject {subject} not found.')
+            print(f"Subject: {subject} not found.")
 
     def get_subjects(self):
         return self.subjects
 
-    def set_hours(self, subject, hours):  # ?
-        if subject in self.subjects:
-            self.subjects[subject]['hours'] = hours
-        else:
-            print(f"Subject: {subject} not found.")
+    def set_hours(self, subject, hours):
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                sub_info['hours'] = hours
+                break
+        print(f"Subject: {subject} not found.")
 
     def add_mark(self, subject, mark):
-        if subject in self.subjects:
-            self.subjects[subject]['marks'].append(mark)
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                sub_info['marks'].append(mark)
+                break
         else:
             print(f"Subject: {subject} not found.")
 
     def get_marks(self, subject):
-        if subject in self.subjects:
-            return self.subjects[subject]['marks']
+        for sub_info in self.subjects:
+            if sub_info['subject'] == subject:
+                return sub_info['marks']
         else:
             print(f"Subject: {subject} not found.")
             return []
@@ -213,9 +205,9 @@ student3 = Student("Kob Bok", 16, "male")
 # student4 = student3 # check
 student4 = Student("Gabimaru", 20, "transgender")
 
-gymnasium.add_student("Class A", student1)
-gymnasium.add_student("Class A", student2)
-gymnasium.add_student("Class B", student3)
+gymnasium.add_student(student1, class_A)
+gymnasium.add_student(student2, class_A)
+gymnasium.add_student(student3, class_B)
 # gymnasium.add_student("Class B", student4)
 # gymnasium.del_student("Class A", student2)
 
@@ -224,10 +216,10 @@ student1.add_subject_hours(physics, 2)
 student1.plus_subject_skips(math, 1)
 student1.plus_subject_skips(physics, 1)
 ############################
-# student1.add_mark(math, 10)
-# student1.add_mark(math, 8)
-# student1.add_mark(math, 10)
-# student1.add_mark(math, 7)
+student1.add_mark(math, 10)
+student1.add_mark(math, 8)
+student1.add_mark(math, 10)
+student1.add_mark(math, 7)
 
 # student1.set_hours(physics, 1)
 # student1.del_subject(math)
@@ -250,14 +242,15 @@ class_A.add_subject(physics, 5)
 # print()
 # print(f"Total students in the school: {gymnasium.get_school_students_count()}")
 
-# print(student1.get_marks(math))
+print(student1.get_marks(math))
+print(student1.get_all_subject_skips())
 
 # print(student1.get_student_skips(math))
 # print(student1.get_all_skips())
 print(student1)
 print(student1.get_subjects())
-print(student1, student1.get_subjects())
+# print(student1, student1.get_subjects())
 # print(student1.get_grade_point_average(math))
-# print(class_A.get_subjects())
+print(class_A.get_subjects())
 # print(class_A.get_class_students())
 # print(gymnasium.check_student_in_school(student3))
