@@ -107,7 +107,7 @@ class Student:
         for sub_info in self.subjects:
             if sub_info['subject'] == subject:
                 sub_info['skips'] += count
-                break
+                return 'skips added'
 
         print(f"Subject '{subject}' not found.")
 
@@ -134,10 +134,12 @@ class Student:
         return count
 
     def get_all_subject_skips(self):
+        skips_info = ""
         for sub_info in self.subjects:
             subject = sub_info['subject']
             skips = sub_info['skips']
-            print(f"Student has {skips} skips for subject: {subject}")
+            skips_info += f"Student has {skips} skips for subject: {subject}\n"
+        return skips_info
 
     # ---------------------------------------------------------------------------------------------------------------------
 
@@ -242,15 +244,15 @@ class_A.add_subject(physics, 5)
 # print()
 # print(f"Total students in the school: {gymnasium.get_school_students_count()}")
 
-print(student1.get_marks(math))
+# print(student1.get_marks(math))
 print(student1.get_all_subject_skips())
 
 # print(student1.get_student_skips(math))
 # print(student1.get_all_skips())
-print(student1)
-print(student1.get_subjects())
+# print(student1)
+# print(student1.get_subjects())
 # print(student1, student1.get_subjects())
 # print(student1.get_grade_point_average(math))
-print(class_A.get_subjects())
+# print(class_A.get_subjects())
 # print(class_A.get_class_students())
 # print(gymnasium.check_student_in_school(student3))
