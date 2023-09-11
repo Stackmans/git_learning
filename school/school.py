@@ -44,7 +44,7 @@ class School:
     def get_school_students_count(self):
         total_students = 0
         for school_class in self.classes:
-            total_students += school_class.get_class_students_count()
+            total_students += school_class.class_students_count
         return total_students
 
 
@@ -57,11 +57,13 @@ class Classroom:
     def __repr__(self):
         return f"Class(class_name='{self.class_name}', students={len(self.students)}, subjects={self.subjects})"
 
-    # TODO properties try
-    def get_class_students_count(self):  # prop
+    # sense only prop?
+    @property
+    def class_students_count(self):
         return len(self.students)
 
-    def get_class_students(self):  # prop
+    @property
+    def class_students(self):
         return self.students
 
     def add_subject(self, subject, hours):
@@ -75,8 +77,7 @@ class Classroom:
         for existing_subject in self.subjects:
             if existing_subject['subject'] == subject:
                 self.subjects.remove(existing_subject)
-                print(f"Subject '{subject}' removed from class.")
-                return
+                return f"Subject '{subject}' removed from class."
         print(f"Subject '{subject}' not found in the class.")
 
     def get_subjects(self):
@@ -89,7 +90,7 @@ class Classroom:
                 return f"Hours for '{subject}' updated to {hours}"
         return f"Subject '{subject}' not found in the class."
 
-    def check_student_hours(self, student, subject_name):
+    def compare_hours(self, student, subject_name):
         for sub_info in self.subjects:
             if sub_info['subject'] == subject_name:
                 if student.get_hours(subject_name) >= sub_info['hours']:
@@ -100,6 +101,16 @@ class Classroom:
                     return 'Not enough hours, you so dumb'
 
         return 'Student or subject not found'
+
+    # ----------------??????????????----------------------------------
+    @property
+    def subject_hours(self):
+        return self.subjects
+
+    @subject_hours.setter
+    def subject_hours(self, new_subjects):
+        self.subjects = new_subjects
+    # ----------------------------------------------------------------
 
 
 class Student:
@@ -244,28 +255,37 @@ student1.add_mark(math, 7)
 
 class_A.add_subject(math, 6)
 class_A.add_subject(physics, 5)
-# class_A.del_subject(physics)
+class_A.del_subject(physics)
 
-# class_B.add_subject(math, 5)
-# class_B.add_subject(physics, 5)
+class_B.add_subject(math, 5)
+class_B.add_subject(physics, 5)
 # gymnasium.del_class(class_B)
-
-# print(f"Total students in class A: {class_A.get_class_students_count()}")
-# print(f"Total students in class B: {class_B.get_class_students_count()}")
+#
+# print(f"Total students in class A: {class_A.class_students_count}")
+# print(f"Total students in class B: {class_B.class_students_count}")
 # print()
 # print(f"Total students in the school: {gymnasium.get_school_students_count()}")
 
-# print(student1.get_marks(math))
-# print(student1.get_all_subject_skips())
 
+# does it make sense??????????------
+# class_A.subject_hours = [{"subject": math, "hours": 4}, {"subject": "Geography", "hours": 2}]
+# print(class_A.subject_hours)
+# ----------------------------------
+
+# print(class_A.class_students)
+# print(class_B.class_students)
+# print(class_A.class_students_count)
+# print(class_B.class_students_count)
+
+# print(student1.get_marks(math))
+#
 # print(student1.get_student_skips(math))
 # print(student1.get_all_skips())
 # print(student1)
-print(student1.get_subjects())
+# print(student1.get_subjects())
 # print(student1, student1.get_subjects())
 # print(student1.get_grade_point_average(math))
-print(class_A.get_subjects())
-print(class_A.check_student_hours(student1, math))
-# print(class_A.get_class_students())
+# print(class_A.get_subjects())
+# print(class_A.compare_hours(student1, math))
+# print(class_A.class_students)
 # print(gymnasium.check_student_in_school(student3))
-print(student1.get_subjects())
