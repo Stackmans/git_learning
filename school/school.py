@@ -22,8 +22,11 @@ class School:
 
     def add_student(self, student, school_class):
         if school_class in self.classes:
+            for school_class_obj in self.classes:
+                for existing_student in school_class_obj.students:
+                    if student.name == existing_student.name and student.birth_date == existing_student.birth_date:
+                        return print(f"{student.name} already in {school_class_obj.class_name}, add failed")
             school_class.students.append(student)
-            print(f"{student.name} added to {school_class.class_name}")
         else:
             print(f"{school_class.class_name} not found in the {self.school_name}. Cannot add student.")
 
@@ -114,10 +117,11 @@ class Classroom:
 
 
 class Student:
-    def __init__(self, name, age, sex):
+    def __init__(self, name, age, sex, birth_date):
         self.name = name
         self.age = age
         self.sex = sex
+        self.birth_date = birth_date
         self.subjects = []
 
     def __repr__(self):
@@ -222,16 +226,17 @@ class_C = Classroom("Class C")
 gymnasium.add_class(class_A)
 gymnasium.add_class(class_B)
 
-student1 = Student("Alice Willy", 15, "female")
-student2 = Student("Bob Cat", 16, "male")
-student3 = Student("Kob Bok", 16, "male")
+student1 = Student("Alice Willy", 15, "female", '28.05.2008')
+student2 = Student("Alice Willy", 15, "female", '28.05.2008')
+# student2 = Student("Bob Cat", 16, "male", '02.12.2007')
+student3 = Student("Kob Bok", 16, "male", '25.04.2007')
 # student4 = Student("Kob Bok", 16, "male")  # check
 # student4 = student3 # check
-student4 = Student("Giorgio Gojo", 20, "transgender")
+student4 = Student("Giorgio Gojo", 20, "transgender", '19.09.2008')
 
-gymnasium.add_student(student1, class_A)
+gymnasium.add_student(student1, class_B)
 gymnasium.add_student(student2, class_A)
-gymnasium.add_student(student3, class_B)
+gymnasium.add_student(student3, class_A)
 # gymnasium.add_student("Class B", student4)
 # gymnasium.del_student("Class A", student2)
 
@@ -273,7 +278,7 @@ class_A.subject_hours = [{"subject": math, "hours": 4}, {"subject": "Geography",
 # ----------------------------------
 
 print(class_A.class_students)
-# print(class_B.class_students)
+print(class_B.class_students)
 # print(class_A.class_students_count)
 # print(class_B.class_students_count)
 
