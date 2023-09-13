@@ -57,7 +57,7 @@ class Classroom:
     def __repr__(self):
         return f"Class(class_name='{self.class_name}', students={len(self.students)}, subjects={self.subjects})"
 
-    # sense only prop?
+    # sense only 1 prop?
     @property
     def class_students_count(self):
         return len(self.students)
@@ -143,7 +143,7 @@ class Student:
         for sub_info in self.subjects:
             if sub_info['subject'] == subject:
                 sub_info['skips'] = count
-                break
+                return 'successfully'
         print(f"Subject '{subject}' not found.")
 
     def get_student_skips(self, subject):
@@ -255,7 +255,7 @@ student1.add_mark(math, 7)
 
 class_A.add_subject(math, 6)
 class_A.add_subject(physics, 5)
-class_A.del_subject(physics)
+# class_A.del_subject(physics)
 
 class_B.add_subject(math, 5)
 class_B.add_subject(physics, 5)
@@ -268,11 +268,11 @@ class_B.add_subject(physics, 5)
 
 
 # does it make sense??????????------
-# class_A.subject_hours = [{"subject": math, "hours": 4}, {"subject": "Geography", "hours": 2}]
+class_A.subject_hours = [{"subject": math, "hours": 4}, {"subject": "Geography", "hours": 2}]
 # print(class_A.subject_hours)
 # ----------------------------------
 
-# print(class_A.class_students)
+print(class_A.class_students)
 # print(class_B.class_students)
 # print(class_A.class_students_count)
 # print(class_B.class_students_count)
@@ -285,7 +285,7 @@ class_B.add_subject(physics, 5)
 # print(student1.get_subjects())
 # print(student1, student1.get_subjects())
 # print(student1.get_grade_point_average(math))
-# print(class_A.get_subjects())
+print(class_A.get_subjects())
 # print(class_A.compare_hours(student1, math))
 # print(class_A.class_students)
 # print(gymnasium.check_student_in_school(student3))
