@@ -227,18 +227,15 @@ gymnasium.add_class(class_A)
 gymnasium.add_class(class_B)
 
 student1 = Student("Alice Willy", 15, "female", '28.05.2008')
-student2 = Student("Alice Willy", 15, "female", '28.05.2008')
-# student2 = Student("Bob Cat", 16, "male", '02.12.2007')
+student2 = Student("Bob Cat", 16, "male", '02.12.2007')
 student3 = Student("Kob Bok", 16, "male", '25.04.2007')
 # student4 = Student("Kob Bok", 16, "male")  # check
 # student4 = student3 # check
 student4 = Student("Giorgio Gojo", 20, "transgender", '19.09.2008')
 
-gymnasium.add_student(student1, class_B)
 gymnasium.add_student(student2, class_A)
 gymnasium.add_student(student3, class_A)
-# gymnasium.add_student("Class B", student4)
-# gymnasium.del_student("Class A", student2)
+gymnasium.add_student(student1, class_B)
 
 student1.add_subject_hours(math, 5)
 student1.add_subject_hours(physics, 2)
