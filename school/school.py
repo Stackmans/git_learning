@@ -60,7 +60,6 @@ class Classroom:
     def __repr__(self):
         return f"Class(class_name='{self.class_name}', students={len(self.students)}, subjects={self.subjects})"
 
-    # sense only 1 prop?
     @property
     def class_students_count(self):
         return len(self.students)
@@ -96,16 +95,17 @@ class Classroom:
     def compare_hours(self, student, subject_name):
         for sub_info in self.subjects:
             if sub_info['subject'] == subject_name:
-                if student.get_hours(subject_name) >= sub_info['hours']:
+                student_hours = student.get_hours(subject_name)
+                required_hours = sub_info['hours']
+                if student_hours >= required_hours:
                     student.set_hours(subject_name, 0)
-                    return 'Enough hours'
+                    return f'Enough hours. Student has {student_hours} hours, required {required_hours}.'
                 else:
                     student.set_hours(subject_name, 0)
-                    return 'Not enough hours, you so dumb'
+                    return f'Not enough hours. Student has {student_hours} hours, required {required_hours}.'
 
-        return 'Student or subject not found'
+        return 'Student or subject not found.'
 
-    # ----------------??????????????----------------------------------
     @property
     def subject_hours(self):
         return self.subjects
@@ -113,7 +113,6 @@ class Classroom:
     @subject_hours.setter
     def subject_hours(self, new_subjects):
         self.subjects = new_subjects
-    # ----------------------------------------------------------------
 
 
 class Student:
@@ -237,7 +236,7 @@ gymnasium.add_student(student2, class_A)
 gymnasium.add_student(student3, class_A)
 gymnasium.add_student(student1, class_B)
 
-student1.add_subject_hours(math, 5)
+student1.add_subject_hours(math, 3)
 student1.add_subject_hours(physics, 2)
 student1.plus_subject_skips(math, 1)
 student1.plus_subject_skips(physics, 1)
@@ -250,12 +249,12 @@ student1.add_mark(math, 7)
 # student1.set_hours(physics, 1)
 # student1.del_subject(math)
 
-# student2.add_subject_hours(math, 5)
+student2.add_subject_hours(math, 5)
 # student2.add_subject_hours(physics, 5)
 # student3.add_subject_hours(chemistry, 5)
 # student3.add_subject_hours(physics, 5)
 
-class_A.add_subject(math, 6)
+class_A.add_subject(math, 3)
 class_A.add_subject(physics, 5)
 # class_A.del_subject(physics)
 
@@ -270,12 +269,12 @@ class_B.add_subject(physics, 5)
 
 
 # does it make sense??????????------
-class_A.subject_hours = [{"subject": math, "hours": 4}, {"subject": "Geography", "hours": 2}]
+# class_A.subject_hours = [{"subject": math, "hours": 4}, {"subject": "Geography", "hours": 2}]
 # print(class_A.subject_hours)
 # ----------------------------------
 
-print(class_A.class_students)
-print(class_B.class_students)
+# print(class_A.class_students)
+# print(class_B.class_students)
 # print(class_A.class_students_count)
 # print(class_B.class_students_count)
 
@@ -285,9 +284,9 @@ print(class_B.class_students)
 # print(student1.get_all_skips())
 # print(student1)
 # print(student1.get_subjects())
-# print(student1, student1.get_subjects())
+print(student1, student1.get_subjects())
 # print(student1.get_grade_point_average(math))
-print(class_A.get_subjects())
-# print(class_A.compare_hours(student1, math))
+# print(class_A.get_subjects())
+print(class_A.compare_hours(student1, math))
 # print(class_A.class_students)
 # print(gymnasium.check_student_in_school(student3))
