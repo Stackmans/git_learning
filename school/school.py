@@ -3,6 +3,14 @@ class School:
         self.school_name = school_name
         self.classes = []
 
+    @staticmethod
+    def new_func():
+        print('hi')
+
+    @staticmethod
+    def new_func2():
+        print('hi 2')
+
     def check_student_in_school(self, student_obj):
         for school_class in self.classes:
             for student in school_class.students:
