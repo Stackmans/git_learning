@@ -160,12 +160,6 @@ class Student:
                 return f"Student has {skips} skips for subject: {subject}"
         return f"Subject '{subject}' not found in student's records."
 
-    def get_all_skips(self):
-        count = 0
-        for sub_info in self.subjects:
-            count += sub_info['skips']
-        return f'{count} skips for all time'
-
     def del_subject(self, subject):
         for sub_info in self.subjects:
             if sub_info['subject'] == subject:
