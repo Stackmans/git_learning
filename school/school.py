@@ -3,10 +3,6 @@ class School:
         self.school_name = school_name
         self.classes = []
 
-    @staticmethod
-    def new_func():
-        print('hi')
-
     def check_student_in_school(self, student_obj):
         for school_class in self.classes:
             for student in school_class.students:
@@ -279,7 +275,6 @@ class_B.add_subject(physics, 5)
 # print(student1.get_marks(math))
 #
 # print(student1.get_student_skips(math))
-# print(student1.get_all_skips())
 # print(student1)
 # print(student1.get_subjects())
 print(student1, student1.get_subjects())
